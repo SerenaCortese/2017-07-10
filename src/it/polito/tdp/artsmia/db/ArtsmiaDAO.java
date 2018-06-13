@@ -66,8 +66,45 @@ public class ArtsmiaDAO {
 		}
 
 	}
+	/**
+	 * Dato un {@link ArtObject}, trova l'elenco di tutte le coppie (ArtObject,
+	 * count) che corrispondono agli oggetti co-esibiti insieme a quello dato, ed il
+	 * conteggio del numero di exhibition in cui ciò accade.
+	 * 
+	 * <p><b>NOTA</b>: il database fornito insieme al progetto aveva dei dati errati, in
+	 * particolare esistevano delle righe (circa 20) in exhibition_objects per cui
+	 * il campo object_id non aveva corrispondenza nella tabella objects. Vedi:
+	 * 
+	 * <pre>
+	 * select *
+	from exhibition_objects
+	where object_id not in (
+		select object_id
+		from objects
+	)
+	 * </pre>
+	 * 
+	 * Occorre eliminare tali situazioni, con:
+	 * 
+	 * <pre>
+	 * delete
+	from exhibition_objects
+	where object_id not in (
+		select object_id
+		from objects
+	)* </pre>
+	 * 
+	 */ 
 	
+	/**
+	 * 
+	 * @param ao
+	 * 		l'oggetto di partenza
+	 * @return
+	 * 		la lista con l'elenco degli oggetti co-esposti ed il conteggio delle esposizioni in cui ciò avviene.
+	 */
 	public List<ArtObjectAndCount> listArtObjectAndCount(ArtObject ao) {
+		
 		String sql = "SELECT count(eo2.exhibition_id) AS cnt, eo2.object_id AS id "
 				+ "FROM exhibition_objects AS eo1, exhibition_objects AS eo2 "
 				+ "WHERE eo1.exhibition_id=eo2.exhibition_id AND eo1.object_id= ? AND eo2.object_id>eo1.object_id "
@@ -97,9 +134,5 @@ public class ArtsmiaDAO {
 
 	}
 	
-	/*
-	 * SELECT eo1.object_id,(eo2.exhibition_id), eo2.object_id FROM exhibition_objects AS eo1, exhibition_objects AS eo2 WHERE eo1.exhibition_id=eo2.exhibition_id AND eo2.object_id>eo1.object_id GROUP BY eo1.object_id, eo2.object_id
-
-	 */
-	
+		
 }

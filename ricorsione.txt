@@ -1,0 +1,30 @@
+Obiettivo: trovare un cammino di LUN vertici, partendo dal vertice 'start'
+- cammino = vertici a due a due adiacenti
+- abbia peso massimo
+- ogni vertice del cammino deve avere la stessa 'classification' di 'start'
+
+Soluzone : lista di vertici contenente uno dei  cammini possibili, importa l'ordine
+perché ci interessa il valore degli archi(non essendo un multigrafo, detti i vertici ho identificato anche gli archi)
+
+Soluzione Parziale: List di ArtObject
+- primo elemento è 'start'
+- elementi successivi sono adiacenti
+- tutti gli elementi hanno la stessa 'classification'
+- l'ordine degli elementi è importante
+
+Soluzione totale: soluzione id lunghezza LUN
+
+Livello ricorsione: lunghezza della sequenza che sto creando
+
+Passo della ricorsione: aggiungere un nuovo vertice in coda alla sequenza
+- adiacente all'ultimo vertice della sequenza parziale
+- purché abbia la giusta 'classification' 
+- purché non faccia ancora parte della soluzione parziale (altrimenti creerei un ciclo non un percorso che va avanti)
+
+Caso terminale : soluzione ha lunghezza LUN
+- calcolo peso
+- se max, memorizzo la soluzione
+- devo continuare a cercare ma non devo aggiungere elementi a questa sequenza, non proseguo in profondità
+	("return" semplice)
+	
+Caso iniziale : lista che contiene il vertice 'start' che è fisso, non deve esser cambiato con backtrack ecc 
